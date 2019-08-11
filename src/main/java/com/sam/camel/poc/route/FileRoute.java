@@ -10,7 +10,6 @@ public class FileRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         from("{{fromRoute}}")
-//            .log("${body}")
             .log("${headers}")
             .to("{{toRoute}}")
         ;
