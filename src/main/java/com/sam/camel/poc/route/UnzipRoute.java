@@ -12,10 +12,12 @@ public class UnzipRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         from("{{fromZipRoute}}")
-                .log(LoggingLevel.INFO, "${body}")
                 .split(new ZipSplitter())
-                .streaming()
-                .convertBodyTo(String.class)
+                .streaming().convertBodyTo(String.class)
+                    .choice()
+                        .when(body().isNotNull())
+                            .log(LoggingLevel.INFO, "${body}")
+                        .end()
                 .to("{{toZipRoute}}")
                 ;
     }
